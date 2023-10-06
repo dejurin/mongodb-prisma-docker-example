@@ -17,6 +17,8 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-l
 FROM base AS build
 ARG DATABASE_URL
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm dlx prisma -v
+RUN node -v
 RUN pnpm dlx prisma init --datasource-provider mongodb
 RUN pnpm dlx prisma db pull --force
 RUN pnpm dlx prisma generate
