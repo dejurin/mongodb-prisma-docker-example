@@ -1,0 +1,4 @@
+
+.DS_Store
+mongodb/data/db/
+.venv
