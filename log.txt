@@ -1,7 +1,7 @@
 #0 building with "desktop-linux" instance using docker driver
 
 #1 [app internal] load build definition from Dockerfile
-#1 transferring dockerfile: 1.05kB done
+#1 transferring dockerfile: 1.12kB done
 #1 DONE 0.0s
 
 #2 [app internal] load .dockerignore
@@ -12,135 +12,107 @@
 #3 DONE 0.0s
 
 #4 [app internal] load metadata for docker.io/library/node:alpine
-#4 DONE 1.6s
+#4 DONE 1.0s
 
 #5 [app base 1/4] FROM docker.io/library/node:alpine@sha256:37750e51d61bef92165b2e29a77da4277ba0777258446b7a9c99511f119db096
-#5 resolve docker.io/library/node:alpine@sha256:37750e51d61bef92165b2e29a77da4277ba0777258446b7a9c99511f119db096 0.0s done
+#5 resolve docker.io/library/node:alpine@sha256:37750e51d61bef92165b2e29a77da4277ba0777258446b7a9c99511f119db096 done
 #5 DONE 0.0s
 
 #6 [app internal] load build context
-#6 transferring context: 6.53kB done
+#6 transferring context: 375B done
 #6 DONE 0.0s
 
 #7 [app base 2/4] RUN corepack enable
 #7 CACHED
 
-#8 [app base 3/4] COPY . /home/app
-#8 DONE 0.0s
+#8 [app prod-deps 1/1] RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+#8 CACHED
 
-#9 [app base 4/4] WORKDIR /home/app
-#9 DONE 0.0s
+#9 [app base 3/4] COPY . /home/app
+#9 CACHED
 
-#10 [app prod-deps 1/1] RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
-#10 2.090 Lockfile is up to date, resolution step is skipped
-#10 2.096 Progress: resolved 1, reused 0, downloaded 0, added 0
-#10 2.103 Packages: +4
-#10 2.103 ++++
-#10 2.368 Progress: resolved 4, reused 4, downloaded 0, added 4, done
-#10 2.511 
-#10 2.511 dependencies:
-#10 2.511 + @prisma/client 5.4.1
-#10 2.511 
-#10 2.511 devDependencies: skipped
-#10 2.511 
-#10 2.513 Done in 741ms
-#10 DONE 2.6s
+#10 [app stage-3 1/2] COPY --from=prod-deps /home/app/node_modules /home/app/node_modules
+#10 CACHED
 
-#11 [app stage-3 1/2] COPY --from=prod-deps /home/app/node_modules /home/app/node_modules
-#11 DONE 0.1s
+#11 [app base 4/4] WORKDIR /home/app
+#11 CACHED
 
-#12 [app build 1/7] RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-#12 2.090 Lockfile is up to date, resolution step is skipped
-#12 2.100 Progress: resolved 1, reused 0, downloaded 0, added 0
-#12 2.128 Packages: +14
-#12 2.128 ++++++++++++++
-#12 2.485 Progress: resolved 14, reused 14, downloaded 0, added 14, done
-#12 2.695 
-#12 2.695 dependencies:
-#12 2.695 + @prisma/client 5.4.1
-#12 2.695 
-#12 2.695 devDependencies:
-#12 2.695 + @types/node 20.8.2
-#12 2.695 + prisma 5.4.1
-#12 2.695 + tsx 3.13.0
-#12 2.695 + typescript 5.2.2
-#12 2.695 
-#12 2.720 Done in 946ms
-#12 DONE 2.8s
-
-#13 [app build 2/7] RUN pnpm dlx prisma -v
-#13 0.938 Progress: resolved 1, reused 0, downloaded 0, added 0
-#13 1.221 Packages: +2
-#13 1.221 ++
-#13 1.400 Progress: resolved 2, reused 0, downloaded 2, added 2, done
-#13 1.410 .../node_modules/@prisma/engines postinstall$ node scripts/postinstall.js
-#13 2.002 .../node_modules/@prisma/engines postinstall: Done
-#13 2.095 .../prisma@5.4.1/node_modules/prisma preinstall$ node scripts/preinstall-entry.js
-#13 2.136 .../prisma@5.4.1/node_modules/prisma preinstall: Done
-#13 2.615 Environment variables loaded from .env
-#13 2.638 prisma                  : 5.4.1
-#13 2.638 @prisma/client          : 5.4.1
-#13 2.638 Current platform        : linux-musl-arm64-openssl-3.0.x
-#13 2.638 Query Engine (Node-API) : libquery-engine 2f302df92bd8945e20ad4595a73def5b96afa54f (at ../../pnpm/store/v3/tmp/dlx-1/node_modules/.pnpm/@prisma+engines@5.4.1/node_modules/@prisma/engines/libquery_engine-linux-musl-arm64-openssl-3.0.x.so.node)
-#13 2.638 Schema Engine           : schema-engine-cli 2f302df92bd8945e20ad4595a73def5b96afa54f (at ../../pnpm/store/v3/tmp/dlx-1/node_modules/.pnpm/@prisma+engines@5.4.1/node_modules/@prisma/engines/schema-engine-linux-musl-arm64-openssl-3.0.x)
-#13 2.638 Schema Wasm             : @prisma/prisma-schema-wasm 5.3.1-2.61e140623197a131c2a6189271ffee05a7aa9a59
-#13 2.638 Default Engines Hash    : 2f302df92bd8945e20ad4595a73def5b96afa54f
-#13 2.638 Studio                  : 0.494.0
-#13 DONE 2.7s
-
-#14 [app build 3/7] RUN node -v
-#14 0.183 v20.8.0
-#14 DONE 0.2s
-
-#15 [app build 4/7] RUN pnpm dlx prisma init --datasource-provider mongodb
-#15 1.016 Progress: resolved 1, reused 0, downloaded 0, added 0
-#15 1.088 Packages: +2
-#15 1.088 ++
-#15 1.292 Progress: resolved 2, reused 2, downloaded 0, added 2, done
-#15 1.721 
-#15 1.721 ✔ Your Prisma schema was created at prisma/schema.prisma
-#15 1.721   You can now open it in your favorite editor.
-#15 1.721 
-#15 1.721 warn Prisma would have added DATABASE_URL but it already exists in .env
-#15 1.721 warn You already have a .gitignore file. Don't forget to add `.env` in it to not commit any private information.
-#15 1.721 
-#15 1.721 Next steps:
-#15 1.721 1. Set the DATABASE_URL in the .env file to point to your existing database. If your database has no tables yet, read https://pris.ly/d/getting-started
-#15 1.721 2. Define models in the schema.prisma file.
-#15 1.721 3. Run prisma generate to generate the Prisma Client. You can then start querying your database.
-#15 1.721 
-#15 1.721 More information in our documentation:
-#15 1.721 https://pris.ly/d/getting-started
-#15 1.721     
-#15 DONE 1.8s
-
-#16 [app build 5/7] RUN pnpm dlx prisma db pull --force
-#16 0.934 Progress: resolved 1, reused 0, downloaded 0, added 0
-#16 1.005 Packages: +2
-#16 1.005 ++
-#16 1.198 Progress: resolved 2, reused 2, downloaded 0, added 2, done
-#16 1.635 Prisma schema loaded from prisma/schema.prisma
-#16 1.636 Environment variables loaded from .env
-#16 1.638 Datasource "db": MongoDB database "my_db" at "mongodb:27017"
-#16 1.641 
-#16 1.643 - Introspecting based on datasource defined in prisma/schema.prisma
-#16 31.66 Error: MongoDB error
-#16 31.66 Kind: Server selection timeout: No available servers. Topology: { Type: Unknown, Servers: [ { Address: mongodb:27017, Type: Unknown, Error: Kind: I/O error: failed to lookup address information: Name does not resolve, labels: {} } ] }, labels: {}
-#16 31.66 
-#16 31.66 
-#16 31.66 ✖ Introspecting based on datasource defined in prisma/schema.prisma
-#16 31.66 
-#16 ERROR: process "/bin/sh -c pnpm dlx prisma db pull --force" did not complete successfully: exit code: 1
+#12 [app build 1/1] RUN --mount=type=cache,id=pnpm,target=/pnpm/store     pnpm install --frozen-lockfile &&     node -v &&     pnpm dlx prisma -v &&     pnpm dlx prisma init --datasource-provider mongodb &&     pnpm dlx prisma db pull --force &&     pnpm dlx prisma generate &&     pnpm run build
+#12 2.043 Lockfile is up to date, resolution step is skipped
+#12 2.054 Progress: resolved 1, reused 0, downloaded 0, added 0
+#12 2.089 Packages: +14
+#12 2.089 ++++++++++++++
+#12 2.456 Progress: resolved 14, reused 14, downloaded 0, added 14, done
+#12 2.693 
+#12 2.693 dependencies:
+#12 2.693 + @prisma/client 5.4.1
+#12 2.693 
+#12 2.693 devDependencies:
+#12 2.693 + @types/node 20.8.2
+#12 2.693 + prisma 5.4.1
+#12 2.693 + tsx 3.13.0
+#12 2.693 + typescript 5.2.2
+#12 2.693 
+#12 2.719 Done in 982ms
+#12 2.758 v20.8.0
+#12 3.572 Progress: resolved 1, reused 0, downloaded 0, added 0
+#12 3.799 Packages: +2
+#12 3.799 ++
+#12 3.877 Progress: resolved 2, reused 2, downloaded 0, added 2, done
+#12 4.222 Environment variables loaded from .env
+#12 4.236 prisma                  : 5.4.1
+#12 4.236 @prisma/client          : 5.4.1
+#12 4.236 Current platform        : linux-musl-arm64-openssl-3.0.x
+#12 4.236 Query Engine (Node-API) : libquery-engine 2f302df92bd8945e20ad4595a73def5b96afa54f (at ../../pnpm/store/v3/tmp/dlx-51/node_modules/.pnpm/@prisma+engines@5.4.1/node_modules/@prisma/engines/libquery_engine-linux-musl-arm64-openssl-3.0.x.so.node)
+#12 4.236 Schema Engine           : schema-engine-cli 2f302df92bd8945e20ad4595a73def5b96afa54f (at ../../pnpm/store/v3/tmp/dlx-51/node_modules/.pnpm/@prisma+engines@5.4.1/node_modules/@prisma/engines/schema-engine-linux-musl-arm64-openssl-3.0.x)
+#12 4.236 Schema Wasm             : @prisma/prisma-schema-wasm 5.3.1-2.61e140623197a131c2a6189271ffee05a7aa9a59
+#12 4.236 Default Engines Hash    : 2f302df92bd8945e20ad4595a73def5b96afa54f
+#12 4.236 Studio                  : 0.494.0
+#12 5.089 Progress: resolved 1, reused 0, downloaded 0, added 0
+#12 5.161 Packages: +2
+#12 5.161 ++
+#12 5.236 Progress: resolved 2, reused 2, downloaded 0, added 2, done
+#12 5.592 
+#12 5.592 ✔ Your Prisma schema was created at prisma/schema.prisma
+#12 5.592   You can now open it in your favorite editor.
+#12 5.592 
+#12 5.592 warn Prisma would have added DATABASE_URL but it already exists in .env
+#12 5.592 warn You already have a .gitignore file. Don't forget to add `.env` in it to not commit any private information.
+#12 5.592 
+#12 5.592 Next steps:
+#12 5.592 1. Set the DATABASE_URL in the .env file to point to your existing database. If your database has no tables yet, read https://pris.ly/d/getting-started
+#12 5.592 2. Define models in the schema.prisma file.
+#12 5.592 3. Run prisma generate to generate the Prisma Client. You can then start querying your database.
+#12 5.592 
+#12 5.592 More information in our documentation:
+#12 5.592 https://pris.ly/d/getting-started
+#12 5.592     
+#12 6.455 Progress: resolved 1, reused 0, downloaded 0, added 0
+#12 6.527 Packages: +2
+#12 6.527 ++
+#12 6.608 Progress: resolved 2, reused 2, downloaded 0, added 2, done
+#12 7.012 Prisma schema loaded from prisma/schema.prisma
+#12 7.012 Environment variables loaded from .env
+#12 7.015 Datasource "db": MongoDB database "my_db" at "mongodb:27017"
+#12 7.017 
+#12 7.019 - Introspecting based on datasource defined in prisma/schema.prisma
+#12 37.03 ✖ Introspecting based on datasource defined in prisma/schema.prisma
+#12 37.03 
+#12 37.03 Error: MongoDB error
+#12 37.03 Kind: Server selection timeout: No available servers. Topology: { Type: Unknown, Servers: [ { Address: mongodb:27017, Type: Unknown, Error: Kind: I/O error: failed to lookup address information: Name does not resolve, labels: {} } ] }, labels: {}
+#12 37.03 
+#12 37.03 
+#12 ERROR: process "/bin/sh -c pnpm install --frozen-lockfile &&     node -v &&     pnpm dlx prisma -v &&     pnpm dlx prisma init --datasource-provider mongodb &&     pnpm dlx prisma db pull --force &&     pnpm dlx prisma generate &&     pnpm run build" did not complete successfully: exit code: 1
 ------
- > [app build 5/7] RUN pnpm dlx prisma db pull --force:
-1.636 Environment variables loaded from .env
-1.638 Datasource "db": MongoDB database "my_db" at "mongodb:27017"
-1.641 
-1.643 - Introspecting based on datasource defined in prisma/schema.prisma
-31.66 Error: MongoDB error
-31.66 Kind: Server selection timeout: No available servers. Topology: { Type: Unknown, Servers: [ { Address: mongodb:27017, Type: Unknown, Error: Kind: I/O error: failed to lookup address information: Name does not resolve, labels: {} } ] }, labels: {}
-31.66 
-31.66 
-31.66 ✖ Introspecting based on datasource defined in prisma/schema.prisma
-31.66 
+ > [app build 1/1] RUN --mount=type=cache,id=pnpm,target=/pnpm/store     pnpm install --frozen-lockfile &&     node -v &&     pnpm dlx prisma -v &&     pnpm dlx prisma init --datasource-provider mongodb &&     pnpm dlx prisma db pull --force &&     pnpm dlx prisma generate &&     pnpm run build:
+7.012 Environment variables loaded from .env
+7.015 Datasource "db": MongoDB database "my_db" at "mongodb:27017"
+7.017 
+7.019 - Introspecting based on datasource defined in prisma/schema.prisma
+37.03 ✖ Introspecting based on datasource defined in prisma/schema.prisma
+37.03 
+37.03 Error: MongoDB error
+37.03 Kind: Server selection timeout: No available servers. Topology: { Type: Unknown, Servers: [ { Address: mongodb:27017, Type: Unknown, Error: Kind: I/O error: failed to lookup address information: Name does not resolve, labels: {} } ] }, labels: {}
+37.03 
+37.03 
 ------

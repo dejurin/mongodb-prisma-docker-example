@@ -13,16 +13,16 @@ WORKDIR /home/app
 FROM base AS prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
-# Build app
+# Install with dependencies
 FROM base AS build
-ARG DATABASE_URL
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm dlx prisma -v
-RUN node -v
-RUN pnpm dlx prisma init --datasource-provider mongodb
-RUN pnpm dlx prisma db pull --force
-RUN pnpm dlx prisma generate
-RUN pnpm run build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install --frozen-lockfile && \
+    node -v && \
+    pnpm dlx prisma -v && \
+    pnpm dlx prisma init --datasource-provider mongodb && \
+    pnpm dlx prisma db pull --force && \
+    pnpm dlx prisma generate && \
+    pnpm run build
 
 # Copy production dependencies and build from build stage
 FROM base
