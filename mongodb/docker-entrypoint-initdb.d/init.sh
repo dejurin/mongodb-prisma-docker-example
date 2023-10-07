@@ -1,19 +1,17 @@
 #!/bin/bash
 
-FILE=/data/db/.mongodb_init_complete
-
-if [[ -f "${FILE}" ]]; then
+if [[ -f "${INIT_COMPLETE_FILE_PATH}" ]]; then
     echo "MongoDB initiation has been completed."
 else
     # Create a MongoDB user
-    mongosh -u root -p root <<EOF
-    use my_db
+    mongosh -u "${MONGO_INITDB_ROOT_USERNAME}" -p "${MONGO_INITDB_ROOT_PASSWORD}" <<EOF
+    use ${APP_MONGO_DATABASE}
     db.createUser({
-      user: "user",
-      pwd: "user",
+      user: "${APP_MONGO_USERNAME}",
+      pwd: "${APP_MONGO_PASSWORD}",
       roles: [ { 
         role: "readWrite",
-        db: "my_db",
+        db: "${APP_MONGO_DATABASE}",
       } ]
     })
     db.createCollection("users")
@@ -23,7 +21,6 @@ else
     })
 EOF
   # Create file
-  touch /data/db/.mongodb_init_complete
-
+  touch "${INIT_COMPLETE_FILE_PATH}"
   echo "The creation of the MongoDB user and database is complete."
 fi
