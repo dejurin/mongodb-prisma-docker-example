@@ -1,1 +1,1 @@
-# mongodb-prisma-example
+# mongodb-prisma-docker-example
