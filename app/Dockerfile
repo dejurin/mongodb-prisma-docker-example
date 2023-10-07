@@ -11,16 +11,12 @@ WORKDIR /home/app
 
 # Install without dev dependencies
 FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile && \
+    pnpm dlx prisma generate
 
 # Install with dependencies
 FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm install --frozen-lockfile && \
-    node -v && \
-    pnpm dlx prisma -v && \
-    pnpm dlx prisma init --datasource-provider mongodb && \
-    pnpm dlx prisma db pull --force && \
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile && \
     pnpm dlx prisma generate && \
     pnpm run build
 
